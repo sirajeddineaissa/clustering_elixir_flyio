@@ -8,7 +8,18 @@ defmodule TestElixirFlyio.Application do
   @impl true
   @spec start(any, any) :: {:error, any} | {:ok, pid}
   def start(_type, _args) do
-    topologies = Application.get_env(:libcluster, :topologies) || []
+    app_name = :test_elixir_flyio
+
+    topologies = [
+      fly6pn: [
+        strategy: Cluster.Strategy.DNSPoll,
+        config: [
+          polling_interval: 5_000,
+          query: "#{app_name}.internal",
+          node_basename: app_name
+        ]
+      ]
+    ]
 
     children = [
       # Start the Ecto repository

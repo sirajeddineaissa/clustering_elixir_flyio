@@ -82,18 +82,18 @@ if config_env() == :prod do
   # See https://hexdocs.pm/swoosh/Swoosh.html#module-installation for details.
 
   # libcluster configuration
-  app_name = test_flyio_elixir
+  # app_name = test_flyio_elixir
 
-  config :libcluster,
-    debug: true,
-    topologies: [
-      fly6pn: [
-        strategy: Cluster.Strategy.DNSPoll,
-        config: [
-          polling_interval: 5_000,
-          query: "#{app_name}.internal",
-          node_basename: app_name
-        ]
-      ]
-    ]
+  # config :libcluster,
+  #   debug: true,
+  #   topologies: [
+  #     fly6pn: [
+  #       strategy: Cluster.Strategy.DNSPoll,
+  #       config: [
+  #         polling_interval: 5_000,
+  #         query: "#{app_name}.internal",
+  #         node_basename: app_name
+  #       ]
+  #     ]
+  #   ]
 end
