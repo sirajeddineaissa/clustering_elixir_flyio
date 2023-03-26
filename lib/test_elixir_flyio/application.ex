@@ -6,7 +6,10 @@ defmodule TestElixirFlyio.Application do
   use Application
 
   @impl true
+  @spec start(any, any) :: {:error, any} | {:ok, pid}
   def start(_type, _args) do
+    topologies = Application.get_env(:libcluster, :topologies) || []
+
     children = [
       # Start the Ecto repository
       TestElixirFlyio.Repo,
@@ -15,9 +18,11 @@ defmodule TestElixirFlyio.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: TestElixirFlyio.PubSub},
       # Start the Endpoint (http/https)
-      TestElixirFlyioWeb.Endpoint
+      TestElixirFlyioWeb.Endpoint,
       # Start a worker by calling: TestElixirFlyio.Worker.start_link(arg)
       # {TestElixirFlyio.Worker, arg}
+      # setup for clustering
+      {Cluster.Supervisor, [topologies, [name: TestElixirFlyio.ClusterSupervisor]]}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
