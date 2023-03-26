@@ -1,0 +1,31 @@
+# fly.toml file generated for test-flyio-elixir on 2023-03-26T11:29:13+01:00
+
+app = "test-flyio-elixir"
+kill_signal = "SIGTERM"
+kill_timeout = 5
+primary_region = "cdg"
+
+[deploy]
+  release_command = "/app/bin/migrate"
+
+[env]
+  PHX_HOST = "test-flyio-elixir.fly.dev"
+  PORT = "8080"
+
+[[services]]
+  protocol = "tcp"
+  internal_port = 8080
+  processes = ["app"]
+
+  [[services.ports]]
+    port = 80
+    handlers = ["http"]
+    force_https = true
+
+  [[services.ports]]
+    port = 443
+    handlers = ["tls", "http"]
+  [services.concurrency]
+    type = "connections"
+    hard_limit = 1000
+    soft_limit = 1000
