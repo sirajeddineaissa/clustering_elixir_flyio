@@ -82,9 +82,7 @@ if config_env() == :prod do
   # See https://hexdocs.pm/swoosh/Swoosh.html#module-installation for details.
 
   # libcluster configuration
-  app_name =
-    System.get_env("FLY_APP_NAME") ||
-      raise "FLY_APP_NAME not available"
+  app_name = test_flyio_elixir
 
   config :libcluster,
     debug: true,
